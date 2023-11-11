@@ -7,14 +7,16 @@ function Car() {
   const styles = StyleSheet.create({
     listContainer: {
       fontSize: 30,
-      padding: 5
+      padding: 5,
+      marginStart: 10,
+      marginTop: 15
     },
     listItemCar: {
       color: '#e5e5e5',
     },
     listItemDriver: {
       color: '#e5e5e5',
-      borderBottomColor: '#e5e5e5'
+      borderBottomColor: '#e5e5e5',
     }
   })
 

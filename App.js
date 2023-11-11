@@ -1,7 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 
 import Header from './components/Header';
-import { Footer } from './components/Footer';
 import Car from './components/Car'
 
 
@@ -10,7 +9,6 @@ export default function App() {
     <View style={styles.container}>
       <Header style={styles.header} />
       <Car style={styles.car}/>
-      <Footer />
     </View>
   );
 }
