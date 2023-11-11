@@ -1,54 +1,15 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import Header from './components/Header';
 import { Footer } from './components/Footer';
+import Car from './components/Car'
+
 
 export default function App() {
-
-  const cars = [
-    {
-      id: 1,
-      name: "Sedan A",
-      make: "Toyota",
-      model: "Camry",
-      year: 2022,
-      rating: 4.5
-    },
-    {
-      id: 2,
-      name: "SUV X",
-      make: "Honda",
-      model: "CR-V",
-      year: 2021,
-      rating: 4.7
-    },
-    {
-      id: 3,
-      name: "Compact B",
-      make: "Ford",
-      model: "Focus",
-      year: 2023,
-      rating: 4.2
-    },
-    // Add more cars as needed
-  ];
-  
-
-
   return (
     <View style={styles.container}>
-      <Header style={styles.header}/>
-      <ScrollView style={styles.vehicles}>
-        {
-          cars.map((car, index) => {
-            return (
-              <View style={styles.list_container}>
-                <Text>{car.name}</Text>
-              </View>
-            )
-          })
-        }
-      </ScrollView>
+      <Header style={styles.header} />
+      <Car style={styles.car}/>
       <Footer />
     </View>
   );
@@ -69,11 +30,8 @@ const styles = StyleSheet.create({
     width: 'auto',
     marginStart: 20,
     marginTop: 30
-
   },
-  list_container: {
-    color: '#e5e5e5',
-    fontSize: 30,
-    padding: 5
+  car: {
+    marginStart: 10
   }
 });
