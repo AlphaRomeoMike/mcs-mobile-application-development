@@ -1,9 +1,7 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, TextInput } from 'react-native';
+import { useState } from 'react';
 
 import Header from './components/Header';
-import { useState } from 'react';
-import { TextInput } from 'react-native-paper';
-import { updateState } from './utilities/helpers';
 
 export default function App() {
   const title = 'Elastic Ecommerce';
@@ -28,9 +26,16 @@ export default function App() {
           style={styles.inputText}
           placeholder='Password'
           secureTextEntry
-          onChangeText={(text) => setState(email = text)}
+          onChangeText={(text) => setState(password = text)}
         ></TextInput>
       </View>
+      <TouchableOpacity>
+        <Text style={styles.forgot}>Forgot Password?</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.loginButton}>
+        <Text style={styles.loginText}>LOGIN </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -60,6 +65,23 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: "white"
+    color: "#f2e9e4"
   },
+  forgotSignUpText: {
+    color: "#f2e9e4",
+    fontSize: 11
+  },
+  loginButton: {
+    width: "80%",
+    backgroundColor: "#fca311",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    marginBottom: 10
+  },
+  forgot: {
+    color: '#e5e5e5'
+  }
 });
