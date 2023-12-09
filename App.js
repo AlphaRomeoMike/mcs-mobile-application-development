@@ -1,22 +1,15 @@
 import { StyleSheet, View } from 'react-native';
-import { useState } from 'react';
 
 import Header from '@components/Header';
 import { Login } from '@components/Login';
 
 
 export default function App() {
-  const title = 'Elastic Ecommerce';
-  const [state, setState] = useState({
-    email: '',
-    password: ''
-  });
-
-
+  const title = 'Elastic Todo';
   return (
     <View style={styles.container}>
       <Header style={styles.header} title={title} />
-      <Login></Login>
+      <Login title={title}></Login>
     </View>
   );
 }

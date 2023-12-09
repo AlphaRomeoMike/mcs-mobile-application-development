@@ -1,13 +1,32 @@
-import { View, StyleSheet, TouchableOpacity, Text, TextInput } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert } from "react-native";
+import { useState } from 'react';
 import theme from "@constants/theme";
 
+const regex_email = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
+
 export function Login() {
+
+  const validateEmail = () => {
+    return state.email.match(regex_email);
+  }
+  const [state, setState] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleLogin = () => {
+    if (!validateEmail && !state.password.length) {
+      Alert.alert('Please provide a valid email and password');
+    }
+  }
+
   return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
           placeholder='Email'
+          keyboardType="email-address"
           onChangeText={(text) => setState(email = text)}
         ></TextInput>
       </View>
@@ -23,6 +42,7 @@ export function Login() {
         <Text style={styles.forgot}>Forgot Password?</Text>
       </TouchableOpacity>
       <TouchableOpacity
+        onPress={handleLogin}
         style={styles.loginButton}>
         <Text style={styles.loginText}>Login </Text>
       </TouchableOpacity>
@@ -43,7 +63,7 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: "#f2e9e4"
+    color: "black"
   },
   forgotSignUpText: {
     color: "#f2e9e4",
@@ -63,6 +83,6 @@ const styles = StyleSheet.create({
     color: '#e5e5e5'
   },
   loginText: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   }
 })
