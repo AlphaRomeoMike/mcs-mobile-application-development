@@ -1,7 +1,7 @@
 import { View, StyleSheet, TouchableOpacity, Text, TextInput } from "react-native";
+import theme from "@constants/theme";
 
-export function Login({ style }) {
-  console.log(style);
+export function Login() {
   return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <View style={styles.inputView}>
@@ -30,10 +30,11 @@ export function Login({ style }) {
   )
 }
 
+const { background, accent, support, highlight, body, white } = theme;
 const styles = StyleSheet.create({
   inputView: {
     width: "80%",
-    backgroundColor: "#e5e5e5",
+    backgroundColor: white.toString(),
     borderRadius: 25,
     height: 50,
     marginBottom: 20,
@@ -60,5 +61,8 @@ const styles = StyleSheet.create({
   },
   forgot: {
     color: '#e5e5e5'
+  },
+  loginText: {
+    fontWeight: 'bold'
   }
 })
