@@ -1,30 +1,36 @@
 import { StyleSheet, View } from 'react-native';
 
 import Header from '@components/Header';
-import { Login } from '@components/Login';
+import Login from '@components/Login';
+import Signup from '@components/Signup';
+import theme from './constants/theme';
 
 
-export default function App() {
+function App() {
   const title = 'Elastic Todo';
   return (
     <View style={styles.container}>
       <Header style={styles.header} title={title} />
-      <Login title={title}></Login>
+      <Login></Login>
+      {/* <Signup></Signup> */}
     </View>
   );
 }
 
+const { accent, background, white, body, highlight, support } = theme
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000814',
+    backgroundColor: background.toString(),
     justifyContent: 'center',
   },
   header: {
-    color: '#f2e9e4',
+    color: white.toString(),
     marginTop: 30,
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20
   }
 });
+
+export default App

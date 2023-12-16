@@ -2,9 +2,10 @@ import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert } from "reac
 import { useState } from 'react';
 import theme from "@constants/theme";
 
+
 const regex_email = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
 
-export function Login() {
+function Login() {
 
   const validateEmail = () => {
     return state.email.match(regex_email);
@@ -50,7 +51,7 @@ export function Login() {
   )
 }
 
-const { background, accent, support, highlight, body, white } = theme;
+const { background, highlight, white, grey } = theme;
 const styles = StyleSheet.create({
   inputView: {
     width: "80%",
@@ -63,15 +64,15 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: "black"
+    color: background.toString()
   },
   forgotSignUpText: {
-    color: "#f2e9e4",
+    color: grey.toString(),
     fontSize: 11
   },
   loginButton: {
     width: "80%",
-    backgroundColor: "#fca311",
+    backgroundColor: highlight.toString(),
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -80,9 +81,11 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   forgot: {
-    color: '#e5e5e5'
+    color: white.toString()
   },
   loginText: {
     fontWeight: 'bold',
   }
-})
+});
+
+export default Login
