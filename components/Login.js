@@ -2,7 +2,6 @@ import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert } from "reac
 import { useState } from 'react';
 import theme from "@constants/theme";
 
-
 const regex_email = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
 
 function Login() {
