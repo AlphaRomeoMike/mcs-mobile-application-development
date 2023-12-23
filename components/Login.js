@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { View, Text, StyleSheet, TextInput, Pressable, Image } from "react-native";
 
 
 /**
@@ -9,13 +9,19 @@ import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
  */
 function Login({ }) {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     function handleEmail(value) {
         setEmail(value);
     }
 
+    function handlePassword(value) {
+        setPassword(value);
+    }
+
     return (
         <View style={[styles.container, styles.inputText]}>
+            {/* <Image source={require('../assets/logo.png')} /> */}
             <View style={{ marginTop: 30 }}>
                 <Text style={{ color: 'black' }}>Email</Text>
                 <TextInput
@@ -36,7 +42,11 @@ function Login({ }) {
                 />
             </View>
 
-            <Pressable>Button</Pressable>
+            <Pressable style={{marginTop: 30, width: 20}}>
+                <Text style={{backgroundColor: 'black'}}>
+                    Button
+                </Text>
+            </Pressable>
         </View>
     )
 }
