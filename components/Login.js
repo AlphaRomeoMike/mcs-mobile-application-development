@@ -8,6 +8,7 @@ import { View, Text, StyleSheet, TextInput, Pressable, Image } from "react-nativ
  * @returns 
  */
 function Login({ }) {
+    console.log(password);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -15,7 +16,7 @@ function Login({ }) {
         setEmail(value);
     }
 
-    function handlePassword(value) {
+    handlePassword = (value) => {
         setPassword(value);
     }
 
@@ -37,14 +38,14 @@ function Login({ }) {
                 <TextInput
                     placeholder="Please enter password"
                     keyboardType="default"
-                    onChangeText={(value) => handlePassword}
+                    onChangeText={handlePassword}
                     value={password}
                 />
             </View>
 
-            <Pressable style={{marginTop: 30, width: 20}}>
-                <Text style={{backgroundColor: 'black'}}>
-                    Button
+            <Pressable style={{marginTop: 30}}>
+                <Text style={{}}>
+                    Login
                 </Text>
             </Pressable>
         </View>
