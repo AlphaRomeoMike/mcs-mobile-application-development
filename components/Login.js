@@ -51,7 +51,7 @@ function Login() {
   )
 }
 
-const { background, highlight, white, grey } = theme;
+const { background, yellow, white, grey } = theme;
 const styles = StyleSheet.create({
   inputView: {
     width: "80%",
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     width: "80%",
-    backgroundColor: highlight.toString(),
+    backgroundColor: yellow.toString(),
     borderRadius: 25,
     height: 50,
     alignItems: "center",

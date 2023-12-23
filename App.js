@@ -17,7 +17,7 @@ function App() {
   );
 }
 
-const { accent, background, white, body, highlight, support } = theme
+const { accent, background, white, lightyellow, yellow, support } = theme
 const styles = StyleSheet.create({
   container: {
     flex: 1,

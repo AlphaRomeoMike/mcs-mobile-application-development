@@ -44,7 +44,7 @@ function Signup() {
   )
 }
 
-const { white, background, accent, body, grey, support, highlight } = theme
+const { white, background, grey, yellow } = theme
 const styles = StyleSheet.create({
   inputView: {
     width: "80%",
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   signUpButton: {
     width: "80%",
-    backgroundColor: highlight.toString(),
+    backgroundColor: yellow.toString(),
     borderRadius: 25,
     height: 50,
     alignItems: "center",
