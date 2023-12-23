@@ -7,62 +7,65 @@ import { View, Text, StyleSheet, TextInput, Pressable, Image } from "react-nativ
  * @param {Object} param0 
  * @returns 
  */
-function Login({ }) {
-    console.log(password);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+function Login({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    function handleEmail(value) {
-        setEmail(value);
-    }
+  const handleEmail = (value) => {
+    setEmail(value);
+  }
 
-    handlePassword = (value) => {
-        setPassword(value);
-    }
+  const handlePassword = (value) => {
+    setPassword(value);
+  }
 
-    return (
-        <View style={[styles.container, styles.inputText]}>
-            {/* <Image source={require('../assets/logo.png')} /> */}
-            <View style={{ marginTop: 30 }}>
-                <Text style={{ color: 'black' }}>Email</Text>
-                <TextInput
-                    placeholder="Please enter email"
-                    keyboardType="email-address"
-                    onChangeText={(value) => handleEmail}
-                    value={email}
-                />
-            </View>
+  const handleLogin = () => {
+    navigation.navigate('Details');
+  } 
 
-            <View style={{ marginTop: 30 }}>
-                <Text>Passowrd</Text>
-                <TextInput
-                    placeholder="Please enter password"
-                    keyboardType="default"
-                    onChangeText={handlePassword}
-                    value={password}
-                />
-            </View>
+  return (
+    <View style={[styles.container, styles.inputText]}>
+      <View style={{ marginTop: 30 }}>
+        <Text style={{ fontStyle: 'italic' }}>Email</Text>
+        <TextInput
+          placeholder="Please enter email"
+          keyboardType="email-address"
+          onChangeText={handleEmail}
+          value={email}
+        />
+      </View>
 
-            <Pressable style={{marginTop: 30}}>
-                <Text style={{}}>
-                    Login
-                </Text>
-            </Pressable>
-        </View>
-    )
+      <View style={{ marginTop: 30 }}>
+        <Text>Passowrd</Text>
+        <TextInput
+          placeholder="Please enter password"
+          keyboardType="default"
+          secureTextEntry
+          onChangeText={handlePassword}
+          value={password}
+        />
+      </View>
+
+      <Pressable style={{ marginTop: 30 }} onPress={handleLogin}>
+        <Text style={{}}>
+          Login
+        </Text>
+      </Pressable>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        // flex: 1,
-        marginTop: 30,
-        padding: 30,
-        backgroundColor: 'white',
-        height: 300
-    },
-    inputText: {
+  container: {
+    // flex: 1,
+    // marginTop: 30,
+    padding: 30,
+    backgroundColor: 'white',
+    height: '100%'
+  },
+  inputText: {
 
-    }
+  }
 });
 
 export default Login;
