@@ -1,8 +1,10 @@
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, Alert } from "react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import theme from "../constants/theme";
+import { status, messages } from "../helpers/status_messages";
 
-const regex = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$";
+const regex = new RegExp("^[0-9A-Za-z._+]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$");
 
 function Signup({ navigation }) {
   const [credentials, setCredentials] = useState({
@@ -15,10 +17,25 @@ function Signup({ navigation }) {
     navigation.navigate('Login')
   }
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
+    console.log(credentials.email);
     if (!regex.test(credentials.email)) {
-      console.log(regex.test(credentials.email));
       Alert.alert('Invalid Email', 'Please provide a valid email');
+    }
+
+    await handleData(credentials);
+  }
+
+  const handleData = async (data) => {
+    try {
+      data = JSON.stringify(data)
+      user = await AsyncStorage.setItem('user', data)
+      if (!user) {
+        Alert.alert(status.SOMETHING_WENT_WRONG, messages.SOMETHING_WENT_WRONG);
+      }
+      Alert.alert(status.SUCCESSFUL_ACTION, status.SUCCESSFUL_ACTION);
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -29,7 +46,7 @@ function Signup({ navigation }) {
         <TextInput
           style={styles.inputText}
           placeholder='Username'
-          onChangeText={(text) => setCredentials(username = text)}
+          onChangeText={(text) => setCredentials({ ...credentials, username: text })}
         ></TextInput>
       </View>
       <View style={styles.inputView}>
@@ -37,7 +54,7 @@ function Signup({ navigation }) {
           style={styles.inputText}
           placeholder='Email'
           keyboardType="email-address"
-          onChangeText={(text) => setCredentials(email = text)}
+          onChangeText={(text) => setCredentials({ ...credentials, email: text })}
         ></TextInput>
       </View>
       <View style={styles.inputView}>
@@ -45,7 +62,7 @@ function Signup({ navigation }) {
           style={styles.inputText}
           placeholder='Password'
           secureTextEntry
-          onChangeText={(text) => setCredentials(password = text)}
+          onChangeText={(text) => setCredentials({ ...credentials, password: text })}
         ></TextInput>
       </View>
       <TouchableOpacity>
