@@ -2,19 +2,25 @@ import { View, TextInput, TouchableOpacity, StyleSheet, Text } from "react-nativ
 import { useState } from "react";
 import theme from "../constants/theme";
 
-function Signup() {
-  const [state, setState] = useState({
+function Signup({ navigation }) {
+  const [credentials, setCredentials] = useState({
     email: '',
     password: '',
     username: ''
   });
+
+  const handleLogin = () => {
+    navigation.navigate('Login')
+  }
+
   return (
-    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: background.toString() }}>
+      <Text style={{color: white.toString(), padding: 10, fontSize: 30, fontWeight: "bold"}}>Sign Up!</Text>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
           placeholder='Username'
-          onChangeText={(text) => setState(username = text)}
+          onChangeText={(text) => setCredentials(username = text)}
         ></TextInput>
       </View>
       <View style={styles.inputView}>
@@ -22,7 +28,7 @@ function Signup() {
           style={styles.inputText}
           placeholder='Email'
           keyboardType="email-address"
-          onChangeText={(text) => setState(email = text)}
+          onChangeText={(text) => setCredentials(email = text)}
         ></TextInput>
       </View>
       <View style={styles.inputView}>
@@ -30,11 +36,11 @@ function Signup() {
           style={styles.inputText}
           placeholder='Password'
           secureTextEntry
-          onChangeText={(text) => setState(password = text)}
+          onChangeText={(text) => setCredentials(password = text)}
         ></TextInput>
       </View>
       <TouchableOpacity>
-        <Text style={styles.forgot}>Already have an account?</Text>
+        <Text style={styles.forgot} onPress={handleLogin}>Already have an account?</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.signUpButton}>
@@ -49,7 +55,7 @@ const styles = StyleSheet.create({
   inputView: {
     width: "80%",
     backgroundColor: white.toString(),
-    borderRadius: 25,
+    borderRadius: 5,
     height: 50,
     marginBottom: 20,
     justifyContent: "center",
@@ -66,7 +72,7 @@ const styles = StyleSheet.create({
   signUpButton: {
     width: "80%",
     backgroundColor: yellow.toString(),
-    borderRadius: 25,
+    borderRadius: 5,
     height: 50,
     alignItems: "center",
     justifyContent: "center",

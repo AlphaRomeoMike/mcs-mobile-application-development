@@ -3,9 +3,10 @@ import { useState } from 'react';
 import theme from "@constants/theme";
 
 const regex_email = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
+const { background, yellow, white, grey } = theme;
 
-function Login() {
-
+function Login({ navigation }) {
+  
   const validateEmail = () => {
     return state.email.match(regex_email);
   }
@@ -13,15 +14,20 @@ function Login() {
     email: '',
     password: ''
   });
-
+  
   const handleLogin = () => {
     if (!validateEmail && !state.password.length) {
       Alert.alert('Please provide a valid email and password');
     }
   }
 
+  const handleSignUp = () => {
+    navigation.navigate('Signup');
+  }
+
   return (
-    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: background.toString(), height: '100%' }}>
+      <Text style={{color: white.toString(), padding: 10, fontSize: 30, fontWeight: "bold"}}>Elastic Login</Text>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -39,7 +45,7 @@ function Login() {
         ></TextInput>
       </View>
       <TouchableOpacity>
-        <Text style={styles.forgot}>Forgot Password?</Text>
+        <Text style={styles.forgot} onPress={handleSignUp}>Signup instead?</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={handleLogin}
@@ -50,16 +56,15 @@ function Login() {
   )
 }
 
-const { background, yellow, white, grey } = theme;
 const styles = StyleSheet.create({
   inputView: {
     width: "80%",
     backgroundColor: white.toString(),
-    borderRadius: 25,
+    borderRadius: 5,
     height: 50,
     marginBottom: 20,
     justifyContent: "center",
-    padding: 20
+    padding: 20,
   },
   inputText: {
     height: 50,
@@ -72,7 +77,7 @@ const styles = StyleSheet.create({
   loginButton: {
     width: "80%",
     backgroundColor: yellow.toString(),
-    borderRadius: 25,
+    borderRadius: 5,
     height: 50,
     alignItems: "center",
     justifyContent: "center",

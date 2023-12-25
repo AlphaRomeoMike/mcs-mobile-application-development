@@ -1,25 +1,35 @@
 import { StyleSheet, View } from 'react-native';
 
-import Header from '@components/Header';
 import Login from '@components/Login';
 import Signup from '@components/Signup';
 import theme from './constants/theme';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+const Stack = createNativeStackNavigator();
+
+const { accent, background, white, lightyellow, yellow, support } = theme;
 
 function App() {
   const title = 'Elastic Todo';
   return (
-    <View style={styles.container}>
-      <Header style={styles.header} title={title} />
-      <Login></Login>
-      {/* <Signup></Signup> */}
-    </View>
+    <NavigationContainer >
+      <View style={styles.container}>
+        <Stack.Navigator initialRouteName='Login' screenOptions={{
+          statusBarColor: background,
+          headerStyle: {backgroundColor: background},
+          headerTintColor: white
+          }}>
+          <Stack.Screen name='Login' component={Login} />
+          <Stack.Screen name="Signup" component={Signup} />
+        </Stack.Navigator>
+      </View>
+    </NavigationContainer>
   );
 }
 
-const { accent, background, white, lightyellow, yellow, support } = theme
 const styles = StyleSheet.create({
-  container: {
+  container: {  
     flex: 1,
     backgroundColor: background.toString(),
     justifyContent: 'center',
