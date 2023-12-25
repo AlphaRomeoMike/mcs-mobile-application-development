@@ -1,23 +1,48 @@
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert } from "react-native";
 import { useState } from 'react';
-import theme from "@constants/theme";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const regex_email = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
+import theme from "@constants/theme";
+import { auth } from "../helpers/keys";
+import { messages, status } from "../helpers/status_messages";
+
+const regex = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
 const { background, yellow, white, grey } = theme;
 
 function Login({ navigation }) {
   
   const validateEmail = () => {
-    return state.email.match(regex_email);
+    return credentials.email.match(regex);
   }
-  const [state, setState] = useState({
+  const [credentials, setcredentials] = useState({
     email: '',
     password: ''
   });
   
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!validateEmail && !state.password.length) {
       Alert.alert('Please provide a valid email and password');
+    }
+    const {email, password, username} = await getData();
+
+    if (!email == credentials.email || !password == credentials.password) {
+      Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+    }
+
+    Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+
+    navigation.navigate('Todos', {
+      username,
+      email
+    });
+  }
+
+  const getData = async () => {
+    try {
+      const user = await AsyncStorage.getItem(auth.user);
+      return user != null ? JSON.parse(user) : null;
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -33,7 +58,7 @@ function Login({ navigation }) {
           style={styles.inputText}
           placeholder='Email'
           keyboardType="email-address"
-          onChangeText={(text) => setState(email = text)}
+          onChangeText={(text) => setcredentials({ ...credentials, email: text})}
         ></TextInput>
       </View>
       <View style={styles.inputView}>
@@ -41,7 +66,7 @@ function Login({ navigation }) {
           style={styles.inputText}
           placeholder='Password'
           secureTextEntry
-          onChangeText={(text) => setState(password = text)}
+          onChangeText={(text) => setcredentials({ ...credentials, password: text})}
         ></TextInput>
       </View>
       <TouchableOpacity>

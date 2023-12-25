@@ -3,6 +3,7 @@ import { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import theme from "../constants/theme";
 import { status, messages } from "../helpers/status_messages";
+import { auth } from "../helpers/keys";
 
 const regex = new RegExp("^[0-9A-Za-z._+]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$");
 
@@ -29,11 +30,11 @@ function Signup({ navigation }) {
   const handleData = async (data) => {
     try {
       data = JSON.stringify(data)
-      user = await AsyncStorage.setItem('user', data)
+      user = await AsyncStorage.setItem(auth.user, data)
       if (!user) {
         Alert.alert(status.SOMETHING_WENT_WRONG, messages.SOMETHING_WENT_WRONG);
       }
-      Alert.alert(status.SUCCESSFUL_ACTION, status.SUCCESSFUL_ACTION);
+      Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
     } catch (err) {
       console.error(err)
     }
