@@ -1,6 +1,8 @@
-import { View, TextInput, TouchableOpacity, StyleSheet, Text } from "react-native";
-import { useState } from "react";
+import { View, TextInput, TouchableOpacity, StyleSheet, Text, Alert } from "react-native";
+import { useEffect, useState } from "react";
 import theme from "../constants/theme";
+
+const regex = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$";
 
 function Signup({ navigation }) {
   const [credentials, setCredentials] = useState({
@@ -13,9 +15,16 @@ function Signup({ navigation }) {
     navigation.navigate('Login')
   }
 
+  const handleSignup = () => {
+    if (!regex.test(credentials.email)) {
+      console.log(regex.test(credentials.email));
+      Alert.alert('Invalid Email', 'Please provide a valid email');
+    }
+  }
+
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: background.toString() }}>
-      <Text style={{color: white.toString(), padding: 10, fontSize: 30, fontWeight: "bold"}}>Sign Up!</Text>
+      <Text style={{ color: white.toString(), padding: 10, fontSize: 30, fontWeight: "bold" }}>Sign Up!</Text>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -43,7 +52,7 @@ function Signup({ navigation }) {
         <Text style={styles.forgot} onPress={handleLogin}>Already have an account?</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.signUpButton}>
+        style={styles.signUpButton} onPress={handleSignup}>
         <Text style={styles.signupText}>Signup </Text>
       </TouchableOpacity>
     </View>
