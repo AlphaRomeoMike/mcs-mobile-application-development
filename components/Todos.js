@@ -8,7 +8,7 @@ import Todo from '@components/Todo';
 
 const { user_todos } = todos_key;
 
-const { background, accent } = theme
+const { background, yellow } = theme
 
 function Todos({ route, navigation }) {
     const { username, email } = route.params;
@@ -44,7 +44,7 @@ function Todos({ route, navigation }) {
                     sections={todoList}
                     renderItem={(item) => {
                         <Todo todo={item} />
-                    }} /> : <Text style={{ color: accent.toString(), alignItems: 'center', justifyContent: 'center' }}>No todos found</Text>
+                    }} /> : <Text style={{ color: yellow.toString()}}>No todos found</Text>
             }
         </View>
     )
