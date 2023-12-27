@@ -11,12 +11,12 @@ function Todo({ navigation, todo }) {
                 <Text>{todo ?? todo.title}</Text>
                 <Text>{todo ?? todo.description}</Text>
                 <Text>{todo ?? todo.category}</Text>
-                <Text><Switch
+                <Switch
                     trackColor={{ false: accent.toString(), true: yellow.toString() }}
-                    onValueChange={() => {}}
-                ></Switch></Text>
+                    onValueChange={() => { }}
+                ></Switch>
             </View>
-        </View>
+        </View> 
     )
 }
 

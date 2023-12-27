@@ -1,4 +1,4 @@
-import { SectionList, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from "react";
 
@@ -13,17 +13,20 @@ const { background, yellow } = theme
 function Todos({ route, navigation }) {
     const { username, email } = route.params;
 
-    const [todoList, setTodos] = useState([]);
+    const [todoList, setTodos] = useState([{
+        title: 'Sample Todo',
+        description: 'Sample Description',
+        category: 'Work',
+        completed: true
+    }]);
 
-    console.log(username, email);
-
-    useEffect(() => {
-        const todoList = async () => {
-            const data = await filterTodos(username);
-            setTodos(data);
-        }
-        todoList();
-    }, [todoList]);
+    // useEffect(() => {
+    //     const GetTodoList = async () => {
+    //         const data = await filterTodos(username);
+    //         setTodos(data);
+    //     }
+    //     GetTodoList();
+    // }, [todoList]);
 
     const getData = async () => {
         const todos = await AsyncStorage.getItem(user_todos ?? 'user_todos');
@@ -39,12 +42,9 @@ function Todos({ route, navigation }) {
     return (
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
-                todoList && todoList.length > 0 ? <SectionList
-                    keyExtractor={(item, index) => item + index}
-                    sections={todoList}
-                    renderItem={(item) => {
-                        <Todo todo={item} />
-                    }} /> : <Text style={{ color: yellow.toString()}}>No todos found</Text>
+                todoList ? <FlatList data={todoList} renderItem={(todo) => {
+                    return <Todo todo={todo} />
+                }}/> : <Text style={{ color: yellow.toString() }}>No todos found</Text>
             }
         </View>
     )

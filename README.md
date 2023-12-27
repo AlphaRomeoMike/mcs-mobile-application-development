@@ -9,3 +9,4 @@ Welcome to Baham Mobile App
 - `cd mcs-mobile-application-development.git`
 - npm install
 - npm start
+- `eas build --profile development --platform android`
