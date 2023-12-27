@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "baham-mobile",
-    "slug": "baham-mobile",
+    "slug": "mcs-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.alpharomeomike1.mcsmobileapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cf2bca84-cd4d-424c-b611-c574f1487085"
+      }
+    },
+    "owner": "alpharomeomike1"
   }
 }
