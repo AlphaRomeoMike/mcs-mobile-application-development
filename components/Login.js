@@ -21,20 +21,21 @@ function Login({ navigation }) {
   
   const handleLogin = async () => {
     if (!validateEmail && !state.password.length) {
-      Alert.alert('Please provide a valid email and password');
+      Alert.alert(status.INVALID_CREDENTIALS,messages.INVALID_CREDENTIALS);
     }
     const {email, password, username} = await getData();
 
-    if (!email == credentials.email || !password == credentials.password) {
+    if (email == credentials.email || password == credentials.password) {
       Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+      navigation.navigate('Todos', {
+        username,
+        email
+      });
     }
-
     Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+   
 
-    navigation.navigate('Todos', {
-      username,
-      email
-    });
+  
   }
 
   const getData = async () => {

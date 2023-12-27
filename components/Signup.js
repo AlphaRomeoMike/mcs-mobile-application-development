@@ -6,6 +6,7 @@ import { status, messages } from "../helpers/status_messages";
 import { auth } from "../helpers/keys";
 
 const regex = new RegExp("^[0-9A-Za-z._+]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$");
+const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
 function Signup({ navigation }) {
   const [credentials, setCredentials] = useState({
@@ -14,17 +15,21 @@ function Signup({ navigation }) {
     username: ''
   });
 
+  const isValidPassword = (password) => {
+    // Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.
+    return passwordRegex.test(password);
+  };
+
   const handleLogin = () => {
     navigation.navigate('Login')
   }
 
   const handleSignup = async () => {
     console.log(credentials.email);
-    if (!regex.test(credentials.email)) {
-      Alert.alert('Invalid Email', 'Please provide a valid email');
+    if (!regex.test(credentials.email) || !isValidPassword(credentials.password)) {
+      Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
     }
-
-    await handleData(credentials);
+       await handleData(credentials);
   }
 
   const handleData = async (data) => {
@@ -33,9 +38,11 @@ function Signup({ navigation }) {
       user = await AsyncStorage.setItem(auth.user, data)
       if (!user) {
         Alert.alert(status.SOMETHING_WENT_WRONG, messages.SOMETHING_WENT_WRONG);
-      }
+      }else{
       Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
-    } catch (err) {
+      handleLogin();
+    }
+   } catch (err) {
       console.error(err)
     }
   }
