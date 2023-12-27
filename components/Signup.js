@@ -1,9 +1,10 @@
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, Alert } from "react-native";
 import { useState } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import theme from "../constants/theme";
 import { status, messages } from "../helpers/status_messages";
 import { auth } from "../helpers/keys";
+import { log } from "react-native-sqlite-storage/lib/sqlite.core";
 
 const regex = new RegExp("^[0-9A-Za-z._+]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$");
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
@@ -25,24 +26,28 @@ function Signup({ navigation }) {
   }
 
   const handleSignup = async () => {
-    console.log(credentials.email);
     if (!regex.test(credentials.email) || !isValidPassword(credentials.password)) {
       Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+    } else {
+      await handleData(credentials);
     }
-       await handleData(credentials);
   }
 
   const handleData = async (data) => {
     try {
-      data = JSON.stringify(data)
-      user = await AsyncStorage.setItem(auth.user, data)
+      await AsyncStorage.setItem('user', JSON.stringify(data))
+      const user=await AsyncStorage.getItem('user')
+      
       if (!user) {
         Alert.alert(status.SOMETHING_WENT_WRONG, messages.SOMETHING_WENT_WRONG);
-      }else{
-      Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
-      handleLogin();
-    }
-   } catch (err) {
+      }
+
+      if (user !== undefined) {
+        Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+        handleLogin();
+      }
+    } catch (err) {
+      Alert.alert(status.SOMETHING_WENT_WRONG, JSON.stringify(err));
       console.error(err)
     }
   }
