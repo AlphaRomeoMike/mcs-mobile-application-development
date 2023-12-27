@@ -43,7 +43,7 @@ function Todos({ route, navigation }) {
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
                 todoList ? <FlatList data={todoList} renderItem={(todo) => {
-                    return <Todo todo={todo} />
+                    <Todo todo={todo} />
                 }}/> : <Text style={{ color: yellow.toString() }}>No todos found</Text>
             }
         </View>
