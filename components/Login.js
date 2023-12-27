@@ -20,19 +20,19 @@ function Login({ navigation }) {
   });
   
   const handleLogin = async () => {
-    if (!validateEmail && !state.password.length) {
+    if (!validateEmail() || !state.password.length) {
       Alert.alert(status.INVALID_CREDENTIALS,messages.INVALID_CREDENTIALS);
-    }
+    } else {
     const {email, password, username} = await getData();
 
     if (email == credentials.email || password == credentials.password) {
-      Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+      Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
       navigation.navigate('Todos', {
         username,
         email
       });
     }
-    Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+  }
    
 
   
