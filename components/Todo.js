@@ -10,7 +10,6 @@ function Todo({ navigation, todo }) {
             <View style={{}}>
                 <Text>{todo ?? todo.title}</Text>
                 <Text>{todo ?? todo.description}</Text>
-                <Text>{todo ?? todo.category}</Text>
                 <Switch
                     trackColor={{ false: accent.toString(), true: yellow.toString() }}
                     onValueChange={() => { }}
