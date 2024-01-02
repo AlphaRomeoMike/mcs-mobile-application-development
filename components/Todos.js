@@ -13,21 +13,22 @@ const { background, yellow } = theme
 
 function Todos({ route, navigation }) {
     const { username, email } = route.params;
-
+    
     const [todoList, setTodos] = useState([]);
-
+    
     useEffect(() => {
-        const setTodo = async () => {
-            await AsyncStorage.setItem(user_todos, JSON.stringify(data))
-        }
-
         const GetTodoList = async () => {
             const data = await filterTodos(username);
-            setTodos(data);
+            console.log(data);
+            return data;
         }
-        setTodo()
-        GetTodoList();
-    }, [todoList]);
+
+        const setTodoList = async () => {
+            await setTodos(GetTodoList());
+        }
+
+        setTodoList();
+    }, []);
 
     const getData = async () => {
         const todos = await AsyncStorage.getItem(user_todos ?? 'user_todos');
@@ -59,13 +60,13 @@ function Todos({ route, navigation }) {
     return (
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
-                todoList ? <SectionList
+                todoList.length > 0 ? <SectionList
                     sections={todoList}
                     keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) => <Todo todo={item} />}
-                    renderSectionHeader={({ section: { title } }) => (
-                        <Text style={{ fontWeight: 'bold', fontSize: 18, padding: 10 }}>{{ title }}</Text>
-                    )}
+                    renderItem={({ item }) => { return <Todo todo={item} />}}
+                    renderSectionHeader={({ section: title}) => {
+                        return <Text>{title}</Text>
+                    }}
                 /> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
             }
         </View>
