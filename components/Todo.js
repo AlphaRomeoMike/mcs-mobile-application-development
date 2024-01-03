@@ -1,15 +1,15 @@
-import { Switch, Text, View } from "react-native"
+import { StyleSheet, Switch, Text, View } from "react-native"
 
 import theme from "../constants/theme";
 
 const { accent, yellow } = theme
 
-function Todo({ navigation, todo }) {
+function Todo({ todo }) {
     return (
         <View>
             <View style={{}}>
-                <Text>{todo ?? todo.title}</Text>
-                <Text>{todo ?? todo.description}</Text>
+                <Text style={styles.text}>{todo ?? todo.title}</Text>
+                <Text style={styles.text}>{todo ?? todo.description}</Text>
                 <Switch
                     trackColor={{ false: accent.toString(), true: yellow.toString() }}
                     onValueChange={() => { }}
@@ -19,4 +19,9 @@ function Todo({ navigation, todo }) {
     )
 }
 
+const styles = StyleSheet.create({
+    text: {
+        color: yellow.toString()
+    }
+})
 export default Todo

@@ -19,13 +19,16 @@ function Todos({ route, navigation }) {
         const getTodos = async () => {
             try {
                 let data = await AsyncStorage.getItem(user_todos);
-                if (data && data.length) {
+
+                if (data && (data != '' || data != undefined)) {
                     data = JSON.parse(data);
-                    const filter = data.reduce((acc, todo) => (
+                    console.log(1, typeof data);
+                    let filter = data.reduce((acc, todo) => (
                         todo.username == username && acc.push(todo), acc
                     ), []);
-                    if (filter && filter.length) {
-                        setTodos([{filter}]);
+                    console.log(2, filter);
+                    if (filter && filter != []) {
+                        setTodos(...todos, filter);
                     } else {
                         setTodos([]);
                     }
@@ -41,10 +44,10 @@ function Todos({ route, navigation }) {
     return (
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
-                todos && todos.length > 0 ? <SectionList
+                console.log(3, todos) && todos ? <SectionList
                     sections={todos}
                     keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) => <Todo todo={item} />}
+                    renderItem={(item) => (<Todo todo={item} />)}
                     renderSectionHeader={({section: { category }}) => <Text>{category}</Text>}
                 /> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
             }
