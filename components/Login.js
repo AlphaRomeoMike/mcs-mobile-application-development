@@ -10,31 +10,28 @@ const regex = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
 const { background, yellow, white, grey } = theme;
 
 function Login({ navigation }) {
-  
+
   const validateEmail = () => {
     return credentials.email.match(regex);
   }
-  const [credentials, setcredentials] = useState({
+  const [credentials, setCredentials] = useState({
     email: '',
     password: ''
   });
-  
+
   const handleLogin = async () => {
-    if (!validateEmail && !state.password.length) {
-      Alert.alert('Please provide a valid email and password');
-    }
-    const {email, password, username} = await getData();
+    const { email, password, username } = await getData();
 
-    if (!email == credentials.email || !password == credentials.password) {
+    if (!email == credentials.email || !password == credentials.password || !validateEmail()) {
       Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+    } else {
+      Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+
+      navigation.navigate('Todos', {
+        username,
+        email
+      });
     }
-
-    Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
-
-    navigation.navigate('Todos', {
-      username,
-      email
-    });
   }
 
   const getData = async () => {
@@ -52,13 +49,13 @@ function Login({ navigation }) {
 
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: background.toString(), height: '100%' }}>
-      <Text style={{color: white.toString(), padding: 10, fontSize: 30, fontWeight: "bold"}}>Elastic Login</Text>
+      <Text style={{ color: white.toString(), padding: 10, fontSize: 30, fontWeight: "bold" }}>Elastic Login</Text>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
           placeholder='Email'
           keyboardType="email-address"
-          onChangeText={(text) => setcredentials({ ...credentials, email: text})}
+          onChangeText={(text) => setCredentials({ ...credentials, email: text })}
         ></TextInput>
       </View>
       <View style={styles.inputView}>
@@ -66,7 +63,7 @@ function Login({ navigation }) {
           style={styles.inputText}
           placeholder='Password'
           secureTextEntry
-          onChangeText={(text) => setcredentials({ ...credentials, password: text})}
+          onChangeText={(text) => setCredentials({ ...credentials, password: text })}
         ></TextInput>
       </View>
       <TouchableOpacity>

@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import theme from "@constants/theme";
 import { todos_key } from "@helpers/keys";
 import Todo from '@components/Todo';
-import data from "../helpers/data";
 
 const { user_todos } = todos_key;
 
@@ -13,60 +12,40 @@ const { background, yellow } = theme
 
 function Todos({ route, navigation }) {
     const { username, email } = route.params;
-    
-    const [todoList, setTodos] = useState([]);
-    
+
+    const [todos, setTodos] = useState([]);
+
     useEffect(() => {
-        const GetTodoList = async () => {
-            const data = await filterTodos(username);
-            console.log(data);
-            return data;
-        }
-
-        const setTodoList = async () => {
-            await setTodos(GetTodoList());
-        }
-
-        setTodoList();
-    }, []);
-
-    const getData = async () => {
-        const todos = await AsyncStorage.getItem(user_todos ?? 'user_todos');
-        return (todos != null) ? JSON.parse(todos) : null;
-    }
-
-    const filterTodos = async (username) => {
-        const todos = await getData();
-        if (!todos || !todos.length) {
-            return null;
-        }
-        const groupedTodos = todos.reduce((acc, todo) => {
-            const category = todo.category || 'Uncategorized';
-            if (!acc[category]) {
-                acc[category] = [];
+        const getTodos = async () => {
+            try {
+                let data = await AsyncStorage.getItem(user_todos);
+                if (data && data.length) {
+                    data = JSON.parse(data);
+                    const filter = data.reduce((acc, todo) => (
+                        todo.username == username && acc.push(todo), acc
+                    ), []);
+                    if (filter && filter.length) {
+                        setTodos([{filter}]);
+                    } else {
+                        setTodos([]);
+                    }
+                }
+            } catch (error) {
+                console.log(error);
             }
-            acc[category].push(todo);
-            return acc;
-        }, {});
+        }
 
-        const sections = Object.entries(groupedTodos).map(([category, todos]) => ({
-            title: category,
-            data: todos,
-        }));
-
-        return sections;
-    }
+        getTodos();
+    }, []);
 
     return (
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
-                todoList.length > 0 ? <SectionList
-                    sections={todoList}
+                todos && todos.length > 0 ? <SectionList
+                    sections={todos}
                     keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) => { return <Todo todo={item} />}}
-                    renderSectionHeader={({ section: title}) => {
-                        return <Text>{title}</Text>
-                    }}
+                    renderItem={({ item }) => <Todo todo={item} />}
+                    renderSectionHeader={({section: { category }}) => <Text>{category}</Text>}
                 /> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
             }
         </View>
