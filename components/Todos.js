@@ -18,16 +18,24 @@ function Todos({ route, navigation }) {
     useEffect(() => {
         const getTodos = async () => {
             try {
+                // retreive info from storage
                 let data = await AsyncStorage.getItem(user_todos);
 
+                // check if data exists
                 if (data && (data != '' || data != undefined)) {
+
+                    // convert data to JSON object
                     data = JSON.parse(data);
-                    console.log(1, typeof data);
-                    let filter = data.reduce((acc, todo) => (
+
+                    //filter data on the basis of username
+                    const filter = data.reduce((acc, todo) => (
                         todo.username == username && acc.push(todo), acc
                     ), []);
-                    console.log(2, filter);
+
+                    // same check as data, check existence
                     if (filter && filter != []) {
+
+                        // set the state 
                         setTodos(...todos, filter);
                     } else {
                         setTodos([]);
@@ -39,14 +47,14 @@ function Todos({ route, navigation }) {
         }
 
         getTodos();
-    }, []);
+    }, [todos]);
 
     return (
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
                 console.log(3, todos) && todos ? <SectionList
                     sections={todos}
-                    keyExtractor={(item, index) => item + index}
+                    keyExtractor={(item, index) => index}
                     renderItem={(item) => (<Todo todo={item} />)}
                     renderSectionHeader={({section: { category }}) => <Text>{category}</Text>}
                 /> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
