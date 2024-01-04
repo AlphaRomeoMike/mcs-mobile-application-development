@@ -22,10 +22,13 @@ function Login({ navigation }) {
   });
 
   const handleLogin = async () => {
+    if (!validateEmail()) {
+      Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+    }
     const data = await getData();
 
     if (data.length) {
-      const filter = data.filter((user) => {
+      let filter = data.filter((user) => {
         return user.email == credentials.email && user.password == credentials.password;
       });
 
