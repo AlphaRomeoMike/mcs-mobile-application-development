@@ -22,6 +22,9 @@ function Login({ navigation }) {
   });
 
   const handleLogin = async () => {
+    if (!validateEmail()) {
+      Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+    }
     const data = await getData();
 
     if (data.length) {
