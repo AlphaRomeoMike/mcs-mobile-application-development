@@ -4,6 +4,8 @@ import Login from '@components/Login';
 import Signup from '@components/Signup';
 import theme from '@constants/theme';
 import Todos from '@components/Todos';
+import Add from '@components/Add';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -16,7 +18,7 @@ function App() {
   return (
     <NavigationContainer >
       <View style={styles.container}>
-        <Stack.Navigator initialRouteName='Login' screenOptions={{
+        <Stack.Navigator initialRouteName='Add' screenOptions={{
           statusBarColor: background,
           headerStyle: {backgroundColor: background},
           headerTintColor: white
@@ -24,6 +26,7 @@ function App() {
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name="Signup" component={Signup} />
           <Stack.Screen name="Todos" component={Todos} />
+          <Stack.Screen name="Add" component={Add} />
         </Stack.Navigator>
       </View>
     </NavigationContainer>
