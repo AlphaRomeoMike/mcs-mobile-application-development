@@ -79,6 +79,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
  
+
+
+  
   inputText: {
     height: 50,
     color: background.toString()
