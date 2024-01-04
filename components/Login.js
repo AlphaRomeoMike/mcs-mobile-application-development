@@ -28,7 +28,7 @@ function Login({ navigation }) {
     const data = await getData();
 
     if (data.length) {
-      const filter = data.filter((user) => {
+      let filter = data.filter((user) => {
         return user.email == credentials.email && user.password == credentials.password;
       });
 

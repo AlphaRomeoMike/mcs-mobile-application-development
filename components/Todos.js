@@ -21,7 +21,7 @@ function Todos({ route, navigation }) {
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
                 console.log(3, todos) && todos ? <SectionList
-                    sections={todos}
+                    sections={todos.data}
                     keyExtractor={(item, index) => index}
                     renderItem={(item) => (<Todo todo={item} />)}
                     renderSectionHeader={({section: { category }}) => <Text>{category}</Text>}
