@@ -6,13 +6,22 @@ import theme from "@constants/theme";
 const { background, white, yellow, grey, accent } = theme;
 
 function Add({ navigation }) {
-
+    const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState);
+            setTodo({ ...todo, completed: isEnabled });
         // You can perform additional logic or actions here based on the new state
         // console.log(previousState)
     };
-    const [isEnabled, setIsEnabled] = useState(false);
+    const [todo, setTodo] = useState({
+        title: '',
+        category: '',
+        description: '',
+        completed:isEnabled
+      });
+
+  
+   
 
 
     return (
@@ -23,7 +32,7 @@ function Add({ navigation }) {
                     style={styles.inputText}
                     placeholder='Title'
                     keyboardType="default"
-                    onChangeText={(text) => setCredentials({ ...credentials, email: text })}
+                    onChangeText={(text) => {setTodo({ ...todo, title: text }); console.log(todo)}}
                 ></TextInput>
             </View>
             <View style={styles.inputView}>
@@ -31,7 +40,7 @@ function Add({ navigation }) {
                     style={styles.inputText}
                     placeholder='Category'
                     keyboardType="default"
-                    onChangeText={(text) => setCredentials({ ...credentials, password: text })}
+                    onChangeText={(text) => setTodo({ ...todo, category: text })}
                 ></TextInput>
             </View>
             <View style={styles.inputView}>
@@ -39,7 +48,7 @@ function Add({ navigation }) {
                     style={styles.inputText}
                     placeholder='Description'
                     secureTextEntry
-                    onChangeText={(text) => setCredentials({ ...credentials, password: text })}
+                    onChangeText={(text) => setTodo({ ...todo, description: text })}
                 ></TextInput>
 
             </View>
@@ -51,7 +60,6 @@ function Add({ navigation }) {
                     value={isEnabled}
                 />
             </View>
-            <Text>{isEnabled ? 'true' : 'false'}</Text>
             <TouchableOpacity
                 // onPress={handleLogin}
                 style={styles.addTodoBtn}>
@@ -83,7 +91,7 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: -20,
+        marginTop: 0,
         marginBottom: 10
     },
     forgot: {
