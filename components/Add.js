@@ -20,10 +20,6 @@ function Add({ navigation }) {
         completed:isEnabled
       });
 
-  
-   
-
-
     return (
         <View style={{ alignItems: 'center', backgroundColor: background.toString(), height: '100%' }}>
             <Text style={{ color: white.toString(), padding: 50, fontSize: 30, fontWeight: "bold" }}>Create Todo</Text>
