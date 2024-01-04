@@ -31,27 +31,16 @@ function Login({ navigation }) {
 
       if (!_.isNil(filter)) {
         Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
-        _.omit(filter, 'email');
-        _.omit(filter, 'password');
+        filter = _.omit(filter, 'email');
+        filter = _.omit(filter, 'password');
         navigation.navigate('Todos', {
-          todos: filter
+          todoList: filter
         });
       } else {
         Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
 
       }
     }
-
-    // if (!email == credentials.email || !password == credentials.password || !validateEmail()) {
-    //   Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
-    // } else {
-    //   Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
-
-    //   navigation.navigate('Todos', {
-    //     username,
-    //     email
-    //   });
-    // }
   }
 
   const getData = async () => {
