@@ -49,7 +49,7 @@ function Login({ navigation }) {
 
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: background.toString(), height: '100%' }}>
-      <Text style={{ color: white.toString(), padding: 10, fontSize: 30, fontWeight: "bold" }}>Elastic Login</Text>
+      <Text style={{ color: white.toString(), padding: 10, fontSize: 30, fontWeight: "bold" }}>Login</Text>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
