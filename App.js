@@ -4,7 +4,8 @@ import Login from '@components/Login';
 import Signup from '@components/Signup';
 import theme from '@constants/theme';
 import Todos from '@components/Todos';
-import Add from '././components/Add'
+import Add from '@components/Add';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 

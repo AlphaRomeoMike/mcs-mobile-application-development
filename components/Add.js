@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import theme from "@constants/theme";
 
-const { background, white, yellow , grey,accent } = theme;
+const { background, white, yellow , grey, accent } = theme;
 
 
 
@@ -61,8 +61,8 @@ function Add({ navigation }) {
       </TouchableOpacity> */}
       <TouchableOpacity
         // onPress={handleLogin}
-        style={styles.loginButton}>
-        <Text style={styles.loginText}>Add </Text>
+        style={styles.addTodoBtn}>
+        <Text style={styles.addTodoText}>Add</Text>
       </TouchableOpacity>
     </View>
   )
@@ -83,11 +83,7 @@ const styles = StyleSheet.create({
     height: 50,
     color: background.toString()
   },
-  forgotSignUpText: {
-    color: grey.toString(),
-    fontSize: 11
-  },
-  loginButton: {
+  addTodoBtn: {
     width: "80%",
     backgroundColor: yellow.toString(),
     borderRadius: 5,
@@ -100,7 +96,7 @@ const styles = StyleSheet.create({
   forgot: {
     color: white.toString()
   },
-  loginText: {
+  addTodoText: {
     fontWeight: 'bold',
   },
   switchLabel:{
