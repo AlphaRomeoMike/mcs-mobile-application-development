@@ -1,82 +1,147 @@
 module.exports = [
-    {
-        id: 'random-uuid1',
-        title: 'random-title1',
-        description: 'description1',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category1',
+  {
+    "username": "FocusedPanda219",
+    "password": "Pa$$w0rd",
+    "categories": [
+      {
+        "name": "Work",
+        "data": [
+          {
+            "title": "Finalize project budget",
+            "description": "Allocate resources and secure funding",
+            "completed": true
+          },
+          {
+            "title": "Organize team meeting",
+            "description": "Set agenda, prepare materials, send invites",
+            "completed": false
+          }
+        ]
       },
       {
-        id: 'random-uuid2',
-        title: 'random-title2',
-        description: 'description2',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category2',
+        "name": "Errands",
+        "data": [
+          {
+            "title": "Pick up groceries",
+            "description": "Get fresh produce and household essentials",
+            "completed": true
+          },
+          {
+            "title": "Return library books",
+            "description": "Avoid late fees and make space for new reads",
+            "completed": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "username": "LivelyArmadillo543",
+    "password": "Pa$$w0rd",
+    "categories": [
+      {
+        "name": "Work",
+        "data": [
+          {
+            "title": "Present project proposal",
+            "description": "Deliver persuasive pitch and answer questions",
+            "completed": true
+          },
+          {
+            "title": "Finalize client contract",
+            "description": "Review terms, obtain signatures, initiate project",
+            "completed": false
+          }
+        ]
       },
       {
-        id: 'random-uuid3',
-        title: 'random-title3',
-        description: 'description3',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category3',
+        "name": "Fitness",
+        "data": [
+          {
+            "title": "Go for a bike ride",
+            "description": "Explore the neighborhood and get some cardio",
+            "completed": true
+          },
+          {
+            "title": "Do yoga at home",
+            "description": "Stretch and strengthen muscles for improved flexibility",
+            "completed": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "username": "DeterminedPuppy826",
+    "password": "Pa$$w0rd",
+    "categories": [
+      {
+        "name": "Work",
+        "data": [
+          {
+            "title": "Create social media campaign",
+            "description":"develop engaging content and launch across platforms",
+            "completed": true
+          },
+          {
+            "title": "Track campaign performance",
+            "description": "Analyze reach, engagement, and optimize strategy",
+            "completed": false
+          }
+        ]
       },
       {
-        id: 'random-uuid4',
-        title: 'random-title4',
-        description: 'description4',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category4',
+        "name": "Hobbies",
+        "data": [
+          {
+            "title": "Practice guitar",
+            "description": "Learn new chords and improve playing skills",
+            "completed": true
+          },
+          {
+            "title": "Write a short story",
+            "description": "Explore creativity and develop writing skills",
+            "completed": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "username": "Expo",
+    "email": "expo@example.com",
+    "password": "Pa$$w0rd",
+    "categories": [
+      {
+        "name": "Work",
+        "data": [
+          {
+            "title": "Respond to client emails",
+            "description": "Address inquiries and provide prompt service",
+            "completed": true
+          },
+          {
+            "title": "Delegate tasks to team",
+            "description": "Empower colleagues and improve team efficiency",
+            "completed": false
+          }
+        ]
       },
       {
-        id: 'random-uuid5',
-        title: 'random-title5',
-        description: 'description5',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category5',
-      },
-      {
-        id: 'random-uuid6',
-        title: 'random-title6',
-        description: 'description6',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category6',
-      },
-      {
-        id: 'random-uuid7',
-        title: 'random-title7',
-        description: 'description7',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category7',
-      },
-      {
-        id: 'random-uuid8',
-        title: 'random-title8',
-        description: 'description8',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category8',
-      },
-      {
-        id: 'random-uuid9',
-        title: 'random-title9',
-        description: 'description9',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category9',
-      },
-      {
-        id: 'random-uuid10',
-        title: 'random-title10',
-        description: 'description10',
-        completed: true,
-        username: 'Expo',
-        category: 'random-category10',
-      },
-]
+        "name": "Home",
+        "data": [
+          {
+            "title": "Clean the kitchen",
+            "description": "Wash dishes, wipe surfaces, and tidy up",
+            "completed": true
+          },
+          {
+            "title": "Organize living room",
+            "description": "Put away clutter and create a relaxing space",
+            "completed": false
+          }
+        ]
+      }
+    ]
+  }
+];

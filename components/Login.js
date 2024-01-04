@@ -1,10 +1,12 @@
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert } from "react-native";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as _ from 'lodash';
 
 import theme from "@constants/theme";
 import { auth } from "../helpers/keys";
 import { messages, status } from "../helpers/status_messages";
+import arr from '../helpers/data'
 
 const regex = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
 const { background, yellow, white, grey } = theme;
@@ -20,18 +22,36 @@ function Login({ navigation }) {
   });
 
   const handleLogin = async () => {
-    const { email, password, username } = await getData();
+    const data = await getData();
 
-    if (!email == credentials.email || !password == credentials.password || !validateEmail()) {
-      Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
-    } else {
-      Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
-
-      navigation.navigate('Todos', {
-        username,
-        email
+    if (data.length) {
+      const filter = data.filter((user) => {
+        return user.email == credentials.email && user.password == credentials.password;
       });
+
+      if (!_.isNil(filter)) {
+        Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+        _.omit(filter, 'email');
+        _.omit(filter, 'password');
+        navigation.navigate('Todos', {
+          todos: filter
+        });
+      } else {
+        Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+
+      }
     }
+
+    // if (!email == credentials.email || !password == credentials.password || !validateEmail()) {
+    //   Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+    // } else {
+    //   Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+
+    //   navigation.navigate('Todos', {
+    //     username,
+    //     email
+    //   });
+    // }
   }
 
   const getData = async () => {
