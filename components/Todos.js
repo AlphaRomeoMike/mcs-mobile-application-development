@@ -6,47 +6,15 @@ import theme from "@constants/theme";
 import { todos_key } from "@helpers/keys";
 import Todo from '@components/Todo';
 
-const { user_todos } = todos_key;
-
 const { background, yellow } = theme
 
 function Todos({ route, navigation }) {
-    const { username, email } = route.params;
+    const { todoList } = route.params;
 
-    const [todos, setTodos] = useState([]);
+    const [todos, setTodos] = useState({data: todoList});
 
     useEffect(() => {
-        const getTodos = async () => {
-            try {
-                // retreive info from storage
-                let data = await AsyncStorage.getItem(user_todos);
-
-                // check if data exists
-                if (data && (data != '' || data != undefined)) {
-
-                    // convert data to JSON object
-                    data = JSON.parse(data);
-
-                    //filter data on the basis of username
-                    const filter = data.reduce((acc, todo) => (
-                        todo.username == username && acc.push(todo), acc
-                    ), []);
-
-                    // same check as data, check existence
-                    if (filter && filter != []) {
-
-                        // set the state 
-                        setTodos(...todos, filter);
-                    } else {
-                        setTodos([]);
-                    }
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        getTodos();
+        console.log(todoList);
     }, [todos]);
 
     return (
