@@ -16,7 +16,6 @@ function Todos({ route, navigation }) {
         const uniqueCategories = new Set();
         if (Array.isArray(todoList)) {
             todoList.forEach((category) => {
-                console.log(category);
                 uniqueCategories.add(category.data.name);
             });
         }
@@ -36,13 +35,21 @@ function Todos({ route, navigation }) {
 const renderCategories = ({ data }) => {
     return (<View style={{ padding: 30 }}>
         <Text style={{ color: white, fontWeight: 'bold', fontSize: 18 }}>{data.name}</Text>
+        {
+            // data.data.map((todo) => (
+            //     <View key={todo.title}>
+            //         {renderTodos({data: todo})}
+            //     </View>
+            // ))
+        }
     </View>)
 }
 
 const renderTodos = ({ data }) => {
+    console.log(10, data);
     return (
         <View>
-
+            <Todo todo={data} />
         </View>
     )
 }
