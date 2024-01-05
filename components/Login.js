@@ -84,7 +84,7 @@ function Login({ navigation }) {
       <TouchableOpacity
         onPress={handleLogin}
         style={styles.loginButton}>
-        <Text style={styles.loginText}>Login </Text>
+        <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
     </View>
   )

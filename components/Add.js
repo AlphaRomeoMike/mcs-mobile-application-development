@@ -5,7 +5,8 @@ import theme from "@constants/theme";
 
 const { background, white, yellow, grey, accent } = theme;
 
-function Add({ navigation }) {
+function Add({route,navigation }) {
+    const username = route?.params?.username ? route?.params.username : 'Expo'
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState);
@@ -19,6 +20,48 @@ function Add({ navigation }) {
         description: '',
         completed:isEnabled
       });
+
+      const AddTodo = async () => {
+        try {
+            let todoData=todo;
+          const dataString = await AsyncStorage.getItem('data');
+          if (dataString) {
+            const data = JSON.parse(dataString);
+            console.log(data + " dsdasda");
+            console.log(username + " usename");
+      
+            if (username) {
+              console.log(username + " usename");
+              let isExistUser = data.filter((item) => {
+                console.log("kiya howa");
+                return item.username === username;
+              });
+              console.log(JSON.stringify(isExistUser) + " exist");
+              if(todoData!=null){
+                console.log(JSON.stringify(todoData)+"todoData");
+              }
+            }
+          } else {
+            console.log("Data is empty or undefined");
+          }
+      
+          // Continue with your logic...
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      const getData = async () => {
+        try {
+            console.log(JSON.stringify(todo) + " ob");
+            const todoData = todo
+            return todoData;
+            // return user != null ? JSON.parse(user) : null;
+          } catch (error) {
+            console.error(error);
+          }
+       
+      }
 
     return (
         <View style={{ alignItems: 'center', backgroundColor: background.toString(), height: '100%' }}>
@@ -43,7 +86,7 @@ function Add({ navigation }) {
                 <TextInput
                     style={styles.inputText}
                     placeholder='Description'
-                    secureTextEntry
+                    keyboardType="default"
                     onChangeText={(text) => setTodo({ ...todo, description: text })}
                 ></TextInput>
 
@@ -57,7 +100,7 @@ function Add({ navigation }) {
                 />
             </View>
             <TouchableOpacity
-                // onPress={handleLogin}
+                onPress={AddTodo}
                 style={styles.addTodoBtn}>
                 <Text style={styles.addTodoText}>Add</Text>
             </TouchableOpacity>
