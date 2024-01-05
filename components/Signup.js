@@ -19,7 +19,6 @@ function Signup({ navigation }) {
   }
 
   const handleSignup = async () => {
-    console.log(credentials.email);
     if (!regex.test(credentials.email)) {
       Alert.alert('Invalid Email', 'Please provide a valid email');
     }

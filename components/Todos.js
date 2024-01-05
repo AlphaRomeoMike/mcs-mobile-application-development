@@ -46,7 +46,6 @@ const renderCategories = ({ data }) => {
 }
 
 const renderTodos = ({ data }) => {
-    console.log(10, data);
     return (
         <View>
             <Todo todo={data} />
