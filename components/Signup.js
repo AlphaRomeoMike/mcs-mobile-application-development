@@ -1,44 +1,88 @@
-import { View, TextInput, TouchableOpacity, StyleSheet, Text, Alert } from "react-native";
-import { useState } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { View, TextInput, TouchableOpacity, StyleSheet, Text, Alert, ToastAndroid } from "react-native";
+import { useEffect, useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import theme from "../constants/theme";
 import { status, messages } from "../helpers/status_messages";
-import { auth } from "../helpers/keys";
+import * as _ from 'lodash';
 
-const regex = new RegExp("^[0-9A-Za-z._+]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$");
+const regexEmail = new RegExp("^[0-9A-Za-z._+]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$");
+const regexPassword = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
 function Signup({ navigation }) {
+
+  const [users, setUsers] = useState([]);
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
     username: ''
   });
 
+  const get = async () => {
+    const data = await AsyncStorage.getItem('user');
+    return data?.length ? JSON.parse(data) : null;
+  }
+
+  useEffect(() => {
+    const promise = get()
+
+    promise.then((data) => {
+      if (data != null) {
+        const existingUsers = data.map(({ categories, ...rest }) => rest);
+        console.log(10, existingUsers);
+        existingUsers ? setUsers(existingUsers) : setUsers([]);
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+
+  }, []);
+
   const handleLogin = () => {
     navigation.navigate('Login')
   }
 
+  function validateEmail(email) {
+    return regexEmail.test(email);
+  }
+
+  function validatePassword(password) {
+    return regexPassword.test(password);
+  }
+
   const handleSignup = async () => {
-    if (!regex.test(credentials.email)) {
-      Alert.alert('Invalid Email', 'Please provide a valid email');
+    if (!validateEmail(credentials.email) || !validatePassword(credentials.password)) {
+      ToastAndroid.show(messages.INVALID_CREDENTIALS, ToastAndroid.SHORT);
+      return;
+    }
+
+    if (checkExistingUsers(credentials.username, credentials.email)) {
+      ToastAndroid.show(messages.ALREADY_EXISTS, ToastAndroid.SHORT);
+      return;
     }
 
     await handleData(credentials);
   }
 
-  const handleData = async (data) => {
-    try {
-      data = JSON.stringify(data)
-      user = await AsyncStorage.setItem(auth.user, data)
-      if (!user) {
-        Alert.alert(status.SOMETHING_WENT_WRONG, messages.SOMETHING_WENT_WRONG);
-      } else {
-        Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
-        handleLogin();
-      }
-    } catch (err) {
-      console.error(err)
-    }
+  const handleData = async (input) => {
+    const users = get();
+
+    users.then(async (list) => {
+      console.log(20, list);
+
+      list.push(input);
+
+      await AsyncStorage.clear();
+
+      await AsyncStorage.setItem('user', list);
+
+      ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.LONG);
+
+      navigation.navigate('Login');
+    });
+  }
+
+  function checkExistingUsers(username, email) {
+    return users.find((user) => user.username === username || user.email === email);
   }
 
   return (
