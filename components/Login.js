@@ -37,7 +37,7 @@ function Login({ navigation }) {
         filter = _.omit(filter, 'email');
         filter = _.omit(filter, 'password');
         navigation.navigate('Todos', {
-          todoList: filter
+          todoList: filter[0]['categories']
         });
       } else {
         Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);

@@ -10,3 +10,5 @@ Welcome to Baham Mobile App
 - npm install
 - npm start
 - `eas build --profile development --platform android`
+- This will generate the APK file in the Expo Dev account
+- Now the APK can be shared locally, internally or via any distribution like Google Play Console.

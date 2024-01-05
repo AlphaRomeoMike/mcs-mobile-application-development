@@ -33,8 +33,10 @@ function Signup({ navigation }) {
       user = await AsyncStorage.setItem(auth.user, data)
       if (!user) {
         Alert.alert(status.SOMETHING_WENT_WRONG, messages.SOMETHING_WENT_WRONG);
+      } else {
+        Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+        handleLogin();
       }
-      Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
     } catch (err) {
       console.error(err)
     }

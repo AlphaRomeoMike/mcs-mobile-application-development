@@ -1,32 +1,48 @@
-import { SectionList, Text, View } from "react-native";
+import { FlatList, SectionList, Text, View } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from "react";
 
 import theme from "@constants/theme";
-import { todos_key } from "@helpers/keys";
 import Todo from '@components/Todo';
 
-const { background, yellow } = theme
+const { background, yellow, white } = theme
 
 function Todos({ route, navigation }) {
     const { todoList } = route.params;
-
-    const [todos, setTodos] = useState({data: todoList});
+    const [todos, setTodos] = useState(todoList);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        console.log(todoList);
-    }, [todos]);
+        const uniqueCategories = new Set();
+        if (Array.isArray(todoList)) {
+            todoList.forEach((category) => {
+                console.log(category);
+                uniqueCategories.add(category.data.name);
+            });
+        }
+
+        setCategories([...uniqueCategories]);
+    }, [todoList])
 
     return (
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
-                console.log(3, todos) && todos ? <SectionList
-                    sections={todos.data}
-                    keyExtractor={(item, index) => index}
-                    renderItem={(item) => (<Todo todo={item} />)}
-                    renderSectionHeader={({section: { category }}) => <Text>{category}</Text>}
-                /> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
+                todos ? <FlatList data={todos} renderItem={({ item }) => renderCategories({ data: item })} /> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
             }
+        </View>
+    )
+}
+
+const renderCategories = ({ data }) => {
+    return (<View style={{ padding: 30 }}>
+        <Text style={{ color: white, fontWeight: 'bold', fontSize: 18 }}>{data.name}</Text>
+    </View>)
+}
+
+const renderTodos = ({ data }) => {
+    return (
+        <View>
+
         </View>
     )
 }

@@ -9,9 +9,8 @@ function Add({ navigation }) {
 
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState);
-        // You can perform additional logic or actions here based on the new state
-        // console.log(previousState)
     };
+    
     const [isEnabled, setIsEnabled] = useState(false);
 
 
