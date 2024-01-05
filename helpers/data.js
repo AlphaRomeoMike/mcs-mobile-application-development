@@ -20,17 +20,8 @@ module.exports = [
       },
       {
         "name": "Errands",
-        "data": [
-          {
-            "title": "Pick up groceries",
-            "description": "Get fresh produce and household essentials",
-            "completed": true
-          },
-          {
-            "title": "Return library books",
-            "description": "Avoid late fees and make space for new reads",
-            "completed": false
-          }
+        
+        
         ]
       }
     ]

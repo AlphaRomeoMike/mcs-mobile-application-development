@@ -21,24 +21,93 @@ function Add({route,navigation }) {
         completed:isEnabled
       });
 
-      const AddTodo = async () => {
+    //   const AddTodo = async () => {
+    //     try {
+            
+    //       const dataString = await AsyncStorage.getItem('data');
+    //       if (dataString) {
+    //         const data = JSON.parse(dataString);
+        
+    //         if (username) {
+    //           console.log(username + " username");
+    //           let isExistUser = data.filter((item) => {
+    //             return item.username === username;
+    //           });
+    //           console.log(todo.category);
+    //         //   console.log(JSON.stringify(isExistUser) + " exist");
+    //           if(todo!=null){
+    //            console.log("enter");
+    //            let isExistTask = data.filter((item) => {
+    //             console.log("entering");
+    //             if (item.categories === todo.category){
+                  
+    //             }else{
+    //                 console.log("zzz");
+    //                 let arr=data[2].categories[0].data.push({
+    //                     title: todo.title,
+    //                     description: todo.description,
+    //                     completed: false, // You may set the completed value based on your requirement
+    //                   });
+    //                   console.log(arr +"array");
+    //                   console.log(arr.data);
+    //             }
+    //           });  
+    //           console.log(isExistTask);
+    //           if(isExistTask){
+
+    //           }
+    //         }
+    //         }
+    //       } else {
+    //         console.log("Data is empty or undefined");
+    //       }
+      
+    //       // Continue with your logic...
+    //     } catch (error) {
+    //       console.error(error);
+    //     }
+    //   };
+
+    const AddTodo = async () => {
         try {
-            let todoData=todo;
           const dataString = await AsyncStorage.getItem('data');
           if (dataString) {
             const data = JSON.parse(dataString);
-            console.log(data + " dsdasda");
-            console.log(username + " usename");
       
             if (username) {
-              console.log(username + " usename");
-              let isExistUser = data.filter((item) => {
-                console.log("kiya howa");
-                return item.username === username;
-              });
-              console.log(JSON.stringify(isExistUser) + " exist");
-              if(todoData!=null){
-                console.log(JSON.stringify(todoData)+"todoData");
+              console.log(username + " username");
+              let user = data.find((item) => item.username === username);
+              
+              if (user) {
+                console.log("enter");
+      
+                let category = user.categories.find((category) => category.name === todo.category);
+      
+                if (!category) {
+                  console.log("zzz");
+                  // Create a new category if it doesn't exist
+                  user.categories.push({
+                    name: todo.category,
+                    data: [{
+                      title: todo.title,
+                      description: todo.description,
+                      completed: false,
+                    }],
+                  });
+                } else {
+                  // Add new data to the existing category
+                  category.data.push({
+                    title: todo.title,
+                    description: todo.description,
+                    completed: false,
+                  });
+                }
+      
+                // Log the updated data
+                console.log(JSON.stringify(data)+"final");
+      
+                // Update AsyncStorage with the modified data
+                await AsyncStorage.setItem('data', JSON.stringify(data));
               }
             }
           } else {
@@ -50,7 +119,8 @@ function Add({route,navigation }) {
           console.error(error);
         }
       };
-    
+      
+
       const getData = async () => {
         try {
             console.log(JSON.stringify(todo) + " ob");
