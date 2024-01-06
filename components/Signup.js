@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import theme from "../constants/theme";
 import { messages } from "../helpers/status_messages";
 import * as _ from 'lodash';
+import seed from '../helpers/data'
 
 // All required regular expressions
 const regexEmail = new RegExp("^[0-9A-Za-z._+]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$");
@@ -32,6 +33,7 @@ function Signup({ navigation }) {
    */
   const get = async () => {
     const data = await AsyncStorage.getItem('user');
+
     return data?.length ? JSON.parse(data) : null;
   }
 
@@ -110,6 +112,10 @@ function Signup({ navigation }) {
 
     // resolve promise to get list of data
     users.then(async (list) => {
+
+      if (!list.length) {
+        list = [];
+      }
 
       // push data to list
       list.push(input);
