@@ -1,7 +1,8 @@
-import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert, Switch } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert, Switch,ToastAndroid } from "react-native";
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import theme from "@constants/theme";
+import { messages } from "../helpers/status_messages";
 
 const { background, white, yellow, grey, accent } = theme;
 
@@ -56,24 +57,32 @@ function Add({route,navigation }) {
                     completed: todo.completed,
                   });
                 }
-      
+                // navigation.navigate('Todos')
                 // Log the updated data
+                ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.LONG);
                 console.log(JSON.stringify(data)+"final");
-      
+
+                setTimeout(() => {
+                    routeTodo();
+                  }, 1000);
                 // Update AsyncStorage with the modified data
                 await AsyncStorage.setItem('data', JSON.stringify(data));
+                
+                // routeTodo();
               }
             }
           } else {
             console.log("Data is empty or undefined");
           }
-      
+          
           // Continue with your logic...
         } catch (error) {
           console.error(error);
         }
       };
-      
+      const routeTodo= () => {
+        navigation.navigate('Login')
+      }
 
       const getData = async () => {
         try {
