@@ -21,53 +21,7 @@ function Add({route,navigation }) {
         completed:isEnabled
       });
 
-    //   const AddTodo = async () => {
-    //     try {
-            
-    //       const dataString = await AsyncStorage.getItem('data');
-    //       if (dataString) {
-    //         const data = JSON.parse(dataString);
-        
-    //         if (username) {
-    //           console.log(username + " username");
-    //           let isExistUser = data.filter((item) => {
-    //             return item.username === username;
-    //           });
-    //           console.log(todo.category);
-    //         //   console.log(JSON.stringify(isExistUser) + " exist");
-    //           if(todo!=null){
-    //            console.log("enter");
-    //            let isExistTask = data.filter((item) => {
-    //             console.log("entering");
-    //             if (item.categories === todo.category){
-                  
-    //             }else{
-    //                 console.log("zzz");
-    //                 let arr=data[2].categories[0].data.push({
-    //                     title: todo.title,
-    //                     description: todo.description,
-    //                     completed: false, // You may set the completed value based on your requirement
-    //                   });
-    //                   console.log(arr +"array");
-    //                   console.log(arr.data);
-    //             }
-    //           });  
-    //           console.log(isExistTask);
-    //           if(isExistTask){
-
-    //           }
-    //         }
-    //         }
-    //       } else {
-    //         console.log("Data is empty or undefined");
-    //       }
-      
-    //       // Continue with your logic...
-    //     } catch (error) {
-    //       console.error(error);
-    //     }
-    //   };
-
+   
     const AddTodo = async () => {
         try {
           const dataString = await AsyncStorage.getItem('data');
@@ -91,7 +45,7 @@ function Add({route,navigation }) {
                     data: [{
                       title: todo.title,
                       description: todo.description,
-                      completed: false,
+                      completed: todo.completed,
                     }],
                   });
                 } else {
@@ -99,7 +53,7 @@ function Add({route,navigation }) {
                   category.data.push({
                     title: todo.title,
                     description: todo.description,
-                    completed: false,
+                    completed: todo.completed,
                   });
                 }
       

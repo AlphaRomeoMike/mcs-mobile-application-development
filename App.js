@@ -8,9 +8,6 @@ import Add from '@components/Add';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import data from './helpers/data';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,21 +15,6 @@ const { accent, background, white, lightyellow, yellow, support } = theme;
 
 function App() {
   const title = 'Elastic Todo';
-  useEffect(() => {
-    const set = async () => {
-      if (__DEV__) {
-        let d = await AsyncStorage.getItem('data');
-        console.log(data);
-        if (!d) {
-          await AsyncStorage.setItem('data', JSON.stringify(data))
-          console.log(`Seeding Completed!`);
-        } else {
-          console.log(`Data already exists`);
-        }
-      }
-    }
-    set();
-  })
   return (
     <NavigationContainer >
       <View style={styles.container}>
