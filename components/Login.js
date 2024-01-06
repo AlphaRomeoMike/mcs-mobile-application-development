@@ -1,14 +1,10 @@
-// Import necessary components and modules from React Native and other sources
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert, ToastAndroid } from "react-native";
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as _ from 'lodash';
 
-// Import custom constants and helpers
-import theme from '@constants/theme';
-import { auth } from '../helpers/keys';
-import { messages, status } from '../helpers/status_messages';
-import arr from '../helpers/data';
+import theme from "@constants/theme";
+import { messages, status } from "../helpers/status_messages";
 
 // Define a regular expression for email validation
 const regex = '^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$';
@@ -30,7 +26,7 @@ function Login({ navigation }) {
   const handleLogin = async () => {
     // Validate email format
     if (!validateEmail()) {
-      Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+      ToastAndroid.show(messages.INVALID_CREDENTIALS, ToastAndroid.SHORT)
     }
 
     // Get user data from AsyncStorage
@@ -43,13 +39,16 @@ function Login({ navigation }) {
       });
 
       if (!_.isNil(filter)) {
-        // If credentials match, navigate to Todos screen with user data
-        Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+        ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.SHORT)
         filter = _.omit(filter, 'email');
         filter = _.omit(filter, 'password');
+        let username = _.get(filter, 'username');
+
         navigation.navigate('Todos', {
-          todoList: filter,
+          todoList: filter[0]['categories'],
+          username: username
         });
+
       } else {
         // If credentials don't match, show invalid credentials alert
         Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
@@ -60,7 +59,7 @@ function Login({ navigation }) {
   // Function to get user data from AsyncStorage
   const getData = async () => {
     try {
-      const user = await AsyncStorage.getItem(auth.user);
+      const user = await AsyncStorage.getItem('user');
       return user != null ? JSON.parse(user) : null;
     } catch (error) {
       console.error(error);

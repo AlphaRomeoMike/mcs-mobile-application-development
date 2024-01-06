@@ -18,7 +18,7 @@ function App() {
   return (
     <NavigationContainer >
       <View style={styles.container}>
-        <Stack.Navigator initialRouteName='Add' screenOptions={{
+        <Stack.Navigator initialRouteName='Login' screenOptions={{
           statusBarColor: background,
           headerStyle: {backgroundColor: background},
           headerTintColor: white
