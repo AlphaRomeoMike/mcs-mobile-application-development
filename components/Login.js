@@ -1,12 +1,10 @@
-import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert, ToastAndroid } from "react-native";
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as _ from 'lodash';
 
 import theme from "@constants/theme";
-import { auth } from "../helpers/keys";
 import { messages, status } from "../helpers/status_messages";
-import arr from '../helpers/data'
 
 const regex = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
 const { background, yellow, white, grey } = theme;
@@ -23,7 +21,7 @@ function Login({ navigation }) {
 
   const handleLogin = async () => {
     if (!validateEmail()) {
-      Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+      ToastAndroid.show(messages.INVALID_CREDENTIALS, ToastAndroid.SHORT)
     }
     const data = await getData();
 
@@ -33,12 +31,16 @@ function Login({ navigation }) {
       });
 
       if (!_.isNil(filter)) {
-        Alert.alert(status.SUCCESSFUL_ACTION, messages.SUCCESSFUL_ACTION);
+        ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.SHORT)
         filter = _.omit(filter, 'email');
         filter = _.omit(filter, 'password');
+        let username = _.get(filter, 'username');
+
         navigation.navigate('Todos', {
-          todoList: filter
+          todoList: filter[0]['categories'],
+          username: username
         });
+
       } else {
         Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
 
@@ -48,7 +50,7 @@ function Login({ navigation }) {
 
   const getData = async () => {
     try {
-      const user = await AsyncStorage.getItem(auth.user);
+      const user = await AsyncStorage.getItem('user');
       return user != null ? JSON.parse(user) : null;
     } catch (error) {
       console.error(error);

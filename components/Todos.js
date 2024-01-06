@@ -1,32 +1,71 @@
-import { SectionList, Text, View } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FlatList, SectionList, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 
 import theme from "@constants/theme";
-import { todos_key } from "@helpers/keys";
 import Todo from '@components/Todo';
+import { FloatingAction } from "react-native-floating-action";
 
-const { background, yellow } = theme
+const { background, yellow, white } = theme
 
 function Todos({ route, navigation }) {
-    const { todoList } = route.params;
-
-    const [todos, setTodos] = useState({data: todoList});
+    const { todoList, username } = route.params;
+    const [todos, setTodos] = useState(todoList);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        console.log(todoList);
-    }, [todos]);
+
+        // Create a Set
+        const uniqueCategories = new Set();
+        // check if data is array
+        if (Array.isArray(todoList)) {
+            // iterate over the array
+            todoList.forEach((category) => {
+                // push to the hashset
+                uniqueCategories.add(category.data.name);
+            });
+        }
+
+        setCategories([...uniqueCategories]);
+    }, [todoList]);
+
+    // handle FAB click
+    function onPressFab() {
+        navigation.navigate('Add', {
+            username: username
+        })
+    }
 
     return (
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
-                console.log(3, todos) && todos ? <SectionList
-                    sections={todos.data}
-                    keyExtractor={(item, index) => index}
-                    renderItem={(item) => (<Todo todo={item} />)}
-                    renderSectionHeader={({section: { category }}) => <Text>{category}</Text>}
-                /> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
+                todos ? <View>
+                    <FlatList data={todos} renderItem={({ item }) => renderCategories({ data: item })} />
+                    <View style={{marginTop: 500}}>
+                        <FloatingAction color="#fca311" position="right" onPressMain={onPressFab} />
+                    </View>
+                </View> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
             }
+        </View>
+    )
+}
+
+const renderCategories = ({ data }) => {
+    return (<View style={{ padding: 30 }}>
+        <Text style={{ color: white, fontWeight: 'bold', fontSize: 18 }}>{data.name}</Text>
+        {
+            // data.data.map((todo) => (
+            //     <View key={todo.title}>
+            //         {renderTodos({data: todo})}
+            //     </View>
+            // ))
+        }
+    </View>)
+}
+
+const renderTodos = ({ data }) => {
+    return (
+        <View>
+            <Todo todo={data} />
         </View>
     )
 }
