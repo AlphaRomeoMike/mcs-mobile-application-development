@@ -37,13 +37,16 @@ function Login({ navigation }) {
       let filter = data.filter((user) => {
         return user.email == credentials.email && user.password == credentials.password;
       });
-
+      // Check if the filter result is not null or undefined
+      // Show success message using ToastAndroid
       if (!_.isNil(filter)) {
         ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.SHORT)
         filter = _.omit(filter, 'email');
         filter = _.omit(filter, 'password');
+        
+         // Get the 'username' from the filtered data
         let username = _.get(filter, 'username');
-
+        // Navigate to 'Todos' screen with filtered todo list and username
         navigation.navigate('Todos', {
           todoList: filter[0]['categories'],
           username: username
