@@ -118,7 +118,7 @@ function Signup({ navigation }) {
       await AsyncStorage.clear();
 
       // set current item to the updated list with our user
-      await AsyncStorage.setItem('user', list);
+      await AsyncStorage.setItem('user', JSON.stringify(list));
 
       // show toast
       ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.LONG);
