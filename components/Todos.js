@@ -1,32 +1,49 @@
 import { FlatList, SectionList, Text, View } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from "react";
 
 import theme from "@constants/theme";
 import Todo from '@components/Todo';
+import { FloatingAction } from "react-native-floating-action";
 
 const { background, yellow, white } = theme
 
 function Todos({ route, navigation }) {
-    const { todoList } = route.params;
+    const { todoList, username } = route.params;
     const [todos, setTodos] = useState(todoList);
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
+
+        // Create a Set
         const uniqueCategories = new Set();
+        // check if data is array
         if (Array.isArray(todoList)) {
+            // iterate over the array
             todoList.forEach((category) => {
+                // push to the hashset
                 uniqueCategories.add(category.data.name);
             });
         }
 
         setCategories([...uniqueCategories]);
-    }, [todoList])
+    }, [todoList]);
+
+    // handle FAB click
+    function onPressFab() {
+        navigation.navigate('Add', {
+            username: username
+        })
+    }
 
     return (
         <View style={{ height: '100%', backgroundColor: background.toString() }}>
             {
-                todos ? <FlatList data={todos} renderItem={({ item }) => renderCategories({ data: item })} /> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
+                todos ? <View>
+                    <FlatList data={todos} renderItem={({ item }) => renderCategories({ data: item })} />
+                    <View style={{marginTop: 500}}>
+                        <FloatingAction color="#fca311" position="right" onPressMain={onPressFab} />
+                    </View>
+                </View> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
             }
         </View>
     )
