@@ -39,7 +39,7 @@ function Todos({ route, navigation }) {
             {
                 todos ? <View>
                     <FlatList data={todos} renderItem={({ item }) => renderCategories({ data: item })} />
-                    <View style={{marginTop: 500}}>
+                    <View>
                         <FloatingAction color="#fca311" position="right" onPressMain={onPressFab} />
                     </View>
                 </View> : <Text style={{ color: yellow.toString(), padding: 10 }}>No todos found</Text>
@@ -51,20 +51,14 @@ function Todos({ route, navigation }) {
 const renderCategories = ({ data }) => {
     return (<View style={{ padding: 30 }}>
         <Text style={{ color: white, fontWeight: 'bold', fontSize: 18 }}>{data.name}</Text>
-        {
-            // data.data.map((todo) => (
-            //     <View key={todo.title}>
-            //         {renderTodos({data: todo})}
-            //     </View>
-            // ))
-        }
+        <FlatList data={data.data} renderItem={renderTodos} />
     </View>)
 }
 
-const renderTodos = ({ data }) => {
+const renderTodos = ({ item }) => {
     return (
         <View>
-            <Todo todo={data} />
+            <Todo todo={item} />
         </View>
     )
 }
