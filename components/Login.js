@@ -1,10 +1,11 @@
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert, ToastAndroid } from "react-native";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as _ from 'lodash';
 
 import theme from "@constants/theme";
 import { messages, status } from "../helpers/status_messages";
+import data from "../helpers/data";
 
 const regex = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
 const { background, yellow, white, grey } = theme;
@@ -21,32 +22,39 @@ function Login({ navigation }) {
 
   const handleLogin = async () => {
     if (!validateEmail()) {
-      ToastAndroid.show(messages.INVALID_CREDENTIALS, ToastAndroid.SHORT)
+      ToastAndroid.show(messages.INVALID_CREDENTIALS, ToastAndroid.SHORT);
+      return;
     }
-    const data = await getData();
-
-    if (data.length) {
-      let filter = data.filter((user) => {
-        return user.email == credentials.email && user.password == credentials.password;
-      });
-
-      if (!_.isNil(filter)) {
-        ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.SHORT)
-        filter = _.omit(filter, 'email');
-        filter = _.omit(filter, 'password');
-        let username = _.get(filter, 'username');
-
-        navigation.navigate('Todos', {
-          todoList: filter[0]['categories'],
-          username: username
+  
+    try {
+      const data = await getData();
+  
+      console.log(`[\u2713]`, data);
+  
+      if (data && data.length) {
+        let filter = data.filter((user) => {
+          return user.email == credentials.email && user.password == credentials.password;
         });
-
-      } else {
-        Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
-
+  
+        if (filter && filter.length) {
+          ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.SHORT);
+          filter = _.omit(filter, 'email');
+          filter = _.omit(filter, 'password');
+          let username = _.get(filter, 'username');
+  
+          navigation.navigate('Todos', {
+            todoList: filter[0]['categories'],
+            username: username
+          });
+        } else {
+          Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
+        }
       }
+    } catch (error) {
+      console.error(error);
     }
   }
+  
 
   const getData = async () => {
     try {
@@ -84,7 +92,7 @@ function Login({ navigation }) {
         <Text style={styles.forgot} onPress={handleSignUp}>Signup instead?</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={handleLogin}
+        onPress={async () => {await handleLogin()}}
         style={styles.loginButton}>
         <Text style={styles.loginText}>Login </Text>
       </TouchableOpacity>
