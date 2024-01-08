@@ -80,8 +80,15 @@ function Login({ navigation }) {
       console.error(error);
     }
   }
-  
 
+  /**
+   * # Get Data
+   * ---
+   * @description - get data from storage and return 
+   * the details as JSON
+   * @name getData
+   * @returns {JSON|null} 
+   */
   const getData = async () => {
     try {
       const user = await AsyncStorage.getItem('user');
@@ -91,6 +98,13 @@ function Login({ navigation }) {
     }
   }
 
+  /**
+   * # Handle Signup
+   * ---
+   * @name - handleSignUp
+   * @param {void}
+   * @description - handle signup
+   */
   const handleSignUp = () => {
     navigation.navigate('Signup');
   }
