@@ -7,19 +7,35 @@ import theme from "@constants/theme";
 import { messages, status } from "../helpers/status_messages";
 import data from "../helpers/data";
 
-const regex = "^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$";
+const regex = RegExp("^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$");
 const { background, yellow, white, grey } = theme;
 
 function Login({ navigation }) {
 
+  /**
+   * # Validate Email
+   * ---
+   * @description - validate email
+   * @returns {Boolean}
+   */
   const validateEmail = () => {
     return credentials.email.match(regex);
   }
+
+  // stateHook for credentials
   const [credentials, setCredentials] = useState({
     email: '',
     password: ''
   });
 
+  /**
+   * # Handle Login
+   * ---
+   * @description - Handle the login functionality  
+   * @name - handleLogin
+   * @async
+   * @returns {void}
+   */
   const handleLogin = async () => {
     if (!validateEmail()) {
       ToastAndroid.show(messages.INVALID_CREDENTIALS, ToastAndroid.SHORT);
@@ -27,21 +43,35 @@ function Login({ navigation }) {
     }
   
     try {
+      // retreive data from storage
       const data = await getData();
   
+      // null check for data
       if (data && data.length) {
+
+        // filter data for current user
         let filter = data.filter((user) => {
           return user.email == credentials.email && user.password == credentials.password;
         });
+
+        // filter success
         if (filter && filter.length) {
+          // show toast that user has logged in
           ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.SHORT);
+
+          // remove unnesecarry information
           filter = _.omit(filter, 'email');
           filter = _.omit(filter, 'password');
-          let username = _.get(filter, 'username');
+
+          // retrieve user information
+          let username = _.get(filter, '[0].username');
+
+          // navigate to Todos screen
           navigation.navigate('Todos', {
             todoList: filter[0]['categories'],
             username: username
           });
+
         } else {
           Alert.alert(status.INVALID_CREDENTIALS, messages.INVALID_CREDENTIALS);
         }
