@@ -1,18 +1,100 @@
-import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert, Switch } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert, Switch,ToastAndroid } from "react-native";
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import theme from "@constants/theme";
+import { messages } from "../helpers/status_messages";
 
 const { background, white, yellow, grey, accent } = theme;
 
-function Add({ navigation }) {
-
+function Add({route,navigation }) {
+    const username = route?.params?.username ? route?.params.username : 'Expo'
+    const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState);
+            setTodo({ ...todo, completed: isEnabled });
+        // You can perform additional logic or actions here based on the new state
+        // console.log(previousState)
     };
-    
-    const [isEnabled, setIsEnabled] = useState(false);
+    const [todo, setTodo] = useState({
+        title: '',
+        category: '',
+        description: '',
+        completed:isEnabled
+      });
 
+   
+    const AddTodo = async () => {
+        try {
+          const dataString = await AsyncStorage.getItem('data');
+          if (dataString) {
+            const data = JSON.parse(dataString);
+      
+            if (username) {
+              console.log(username + " username");
+              let user = data.find((item) => item.username === username);
+              
+              if (user) {
+                console.log("enter");
+      
+                let category = user.categories.find((category) => category.name === todo.category);
+      
+                if (!category) {
+                  console.log("zzz");
+                  // Create a new category if it doesn't exist
+                  user.categories.push({
+                    name: todo.category,
+                    data: [{
+                      title: todo.title,
+                      description: todo.description,
+                      completed: todo.completed,
+                    }],
+                  });
+                } else {
+                  // Add new data to the existing category
+                  category.data.push({
+                    title: todo.title,
+                    description: todo.description,
+                    completed: todo.completed,
+                  });
+                }
+                // navigation.navigate('Todos')
+                // Log the updated data
+                ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.LONG);
+                console.log(JSON.stringify(data)+"final");
+
+                setTimeout(() => {
+                    routeTodo();
+                  }, 1000);
+                // Update AsyncStorage with the modified data
+                await AsyncStorage.setItem('data', JSON.stringify(data));
+                
+                // routeTodo();
+              }
+            }
+          } else {
+            console.log("Data is empty or undefined");
+          }
+          
+          // Continue with your logic...
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      const routeTodo= () => {
+        navigation.navigate('Login')
+      }
+
+      const getData = async () => {
+        try {
+            console.log(JSON.stringify(todo) + " ob");
+            const todoData = todo
+            return todoData;
+            // return user != null ? JSON.parse(user) : null;
+          } catch (error) {
+            console.error(error);
+          }
+       
+      }
 
     return (
         <View style={{ alignItems: 'center', backgroundColor: background.toString(), height: '100%' }}>
@@ -22,7 +104,7 @@ function Add({ navigation }) {
                     style={styles.inputText}
                     placeholder='Title'
                     keyboardType="default"
-                    onChangeText={(text) => setCredentials({ ...credentials, email: text })}
+                    onChangeText={(text) => {setTodo({ ...todo, title: text }); console.log(todo)}}
                 ></TextInput>
             </View>
             <View style={styles.inputView}>
@@ -30,15 +112,15 @@ function Add({ navigation }) {
                     style={styles.inputText}
                     placeholder='Category'
                     keyboardType="default"
-                    onChangeText={(text) => setCredentials({ ...credentials, password: text })}
+                    onChangeText={(text) => setTodo({ ...todo, category: text })}
                 ></TextInput>
             </View>
             <View style={styles.inputView}>
                 <TextInput
                     style={styles.inputText}
                     placeholder='Description'
-                    secureTextEntry
-                    onChangeText={(text) => setCredentials({ ...credentials, password: text })}
+                    keyboardType="default"
+                    onChangeText={(text) => setTodo({ ...todo, description: text })}
                 ></TextInput>
 
             </View>
@@ -50,9 +132,8 @@ function Add({ navigation }) {
                     value={isEnabled}
                 />
             </View>
-            <Text>{isEnabled ? 'true' : 'false'}</Text>
             <TouchableOpacity
-                // onPress={handleLogin}
+                onPress={AddTodo}
                 style={styles.addTodoBtn}>
                 <Text style={styles.addTodoText}>Add</Text>
             </TouchableOpacity>
@@ -82,7 +163,7 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: -20,
+        marginTop: 0,
         marginBottom: 10
     },
     forgot: {
