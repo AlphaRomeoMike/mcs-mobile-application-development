@@ -29,19 +29,15 @@ function Login({ navigation }) {
     try {
       const data = await getData();
   
-      console.log(`[\u2713]`, data);
-  
       if (data && data.length) {
         let filter = data.filter((user) => {
           return user.email == credentials.email && user.password == credentials.password;
         });
-  
         if (filter && filter.length) {
           ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.SHORT);
           filter = _.omit(filter, 'email');
           filter = _.omit(filter, 'password');
           let username = _.get(filter, 'username');
-  
           navigation.navigate('Todos', {
             todoList: filter[0]['categories'],
             username: username
