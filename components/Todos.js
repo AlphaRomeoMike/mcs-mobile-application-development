@@ -1,5 +1,5 @@
 import { FlatList, SectionList, Text, View } from "react-native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import theme from "@constants/theme";
 import Todo from '@components/Todo';
@@ -51,6 +51,14 @@ function Todos({ route, navigation }) {
     )
 }
 
+/**
+ * # Render the categories for the user
+ * ---
+ * @name renderCategories
+ * @description - Render categories for the user
+ * @param {Object} data
+ * @returns {React.FC}
+ */
 const renderCategories = ({ data }) => {
     return (<View style={{ padding: 10 }}>
         <Text style={{ color: white, fontWeight: 'bold', fontSize: 18 }}>{data.name}</Text>
@@ -58,6 +66,14 @@ const renderCategories = ({ data }) => {
     </View>)
 }
 
+/**
+ * # Render Todos
+ * ---
+ * @name renderTodos
+ * @description - Render all items
+ * @param {Object} item
+ * @returns {React.FC}
+ */
 const renderTodos = ({ item }) => {
     return (
         <View style={{ paddingTop: 10 }}>
