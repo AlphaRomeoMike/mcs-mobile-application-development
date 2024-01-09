@@ -8,6 +8,8 @@ const { background, white, yellow, grey, accent } = theme;
 
 function Add({route,navigation }) {
     const username = route?.params?.username ? route?.params.username : 'Expo'
+
+    const [user, setUser] = useState(null);
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState);
@@ -30,16 +32,14 @@ function Add({route,navigation }) {
             const data = JSON.parse(dataString);
       
             if (username) {
-              console.log(username + " username");
               let user = data.find((item) => item.username === username);
+              setUser(route?.params?.username)
               
               if (user) {
-                console.log("enter");
       
                 let category = user.categories.find((category) => category.name === todo.category);
       
                 if (!category) {
-                  console.log("zzz");
                   // Create a new category if it doesn't exist
                   user.categories.push({
                     name: todo.category,
@@ -57,10 +57,8 @@ function Add({route,navigation }) {
                     completed: todo.completed,
                   });
                 }
-                // navigation.navigate('Todos')
                 // Log the updated data
                 ToastAndroid.show(messages.SUCCESSFUL_ACTION, ToastAndroid.LONG);
-                console.log(JSON.stringify(data)+"final");
 
                 setTimeout(() => {
                     routeTodo();
@@ -72,28 +70,19 @@ function Add({route,navigation }) {
               }
             }
           } else {
-            console.log("Data is empty or undefined");
+            ToastAndroid.show(messages.SOMETHING_WENT_WRONG, ToastAndroid.SHORT);
           }
           
           // Continue with your logic...
         } catch (error) {
-          console.error(error);
+          ToastAndroid.show(messages.SOMETHING_WENT_WRONG, ToastAndroid.SHORT);
         }
       };
-      const routeTodo= () => {
-        navigation.navigate('Login')
-      }
 
-      const getData = async () => {
-        try {
-            console.log(JSON.stringify(todo) + " ob");
-            const todoData = todo
-            return todoData;
-            // return user != null ? JSON.parse(user) : null;
-          } catch (error) {
-            console.error(error);
-          }
-       
+      const routeTodo= () => {
+        navigation.navigate('Todos', {
+          username: user
+        });
       }
 
     return (
