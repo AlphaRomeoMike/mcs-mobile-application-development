@@ -5,7 +5,6 @@ import * as _ from 'lodash';
 
 import theme from "@constants/theme";
 import { messages, status } from "../helpers/status_messages";
-import data from "../helpers/data";
 
 const regex = RegExp("^[0-9A-Za-z._+]+@[A-Za-z0-9]+.[A-Za-z0-9]+$");
 const { background, yellow, white, grey } = theme;
