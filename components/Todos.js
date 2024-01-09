@@ -13,7 +13,6 @@ function Todos({ route, navigation }) {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        console.log(username);
         // Create a Set
         const uniqueCategories = new Set();
         // check if data is array
